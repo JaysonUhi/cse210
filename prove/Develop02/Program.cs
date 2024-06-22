@@ -1,3 +1,6 @@
+// I successfully got time and date to save and properly load.
+// Added extra journal prompts.
+
 using System;
 using System.Net;
 
