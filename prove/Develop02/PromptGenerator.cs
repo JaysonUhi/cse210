@@ -17,7 +17,7 @@ public class PromptGenerator
             "Write about a goal you achieved recently. What steps did you take to accomplish it, and what did you learn along the way?",
             "Reflect on a moment when you felt grateful today. What or who sparked this feeling, and how did it impact your day?",
             "Write about a decision you made recently that you're proud of. What factors influenced your choice, and how did it turn out?",
-            "Describe a setback or disappointment you faced recently. How did you cope with it, and what lessons did you take away from the experience?"
+            "Describe a setback or disappointment you faced recently. How did you cope with it, and what lessons did you take away from the experience?",
             "Reflect on a new perspective or insight you gained recently. How has this new understanding influenced your thoughts or actions?"
         };
     }
