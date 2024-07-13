@@ -4,11 +4,12 @@
 
 using System;
 
-
 class Program
 {
     static void Main(string[] args)
     {
+        Activity activity = null; // Initialize activity to null
+
         while (true)
         {
             Console.WriteLine("Choose an activity:");
@@ -23,13 +24,13 @@ class Program
             switch (choice)
             {
                 case 1:
-                    RunBreathingActivity();
+                    activity = new BreathingActivity();
                     break;
                 case 2:
-                    RunReflectionActivity();
+                    activity = new ReflectionActivity();
                     break;
                 case 3:
-                    RunListingActivity();
+                    activity = new ListingActivity();
                     break;
                 case 4:
                     Console.WriteLine();
@@ -37,29 +38,18 @@ class Program
                     break;
                 default:
                     Console.WriteLine("Invalid choice. Please try again.");
-                    break;
+                    continue;
+            }
+
+            if (activity != null)
+            {
+                activity.RunActivity();
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("Activity is not initialized properly.");
             }
         }
-    }
-
-    static void RunBreathingActivity()
-    {
-        BreathingActivity breathingActivity = new BreathingActivity();
-        breathingActivity.RunActivity();
-        Console.WriteLine();
-    }
-
-    static void RunReflectionActivity()
-    {
-        ReflectionActivity reflectionActivity = new ReflectionActivity();
-        reflectionActivity.RunActivity();
-        Console.WriteLine();
-    }
-
-    static void RunListingActivity()
-    {
-        ListingActivity listingActivity = new ListingActivity();
-        listingActivity.RunActivity();
-        Console.WriteLine();
     }
 }

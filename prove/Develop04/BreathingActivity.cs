@@ -1,40 +1,15 @@
 using System;
 using System.Threading;
 
-class BreathingActivity
+public class BreathingActivity : Activity
 {
-    private int DurationInSeconds { get; set; }
-    private bool isSpinnerActive = true;
-
-    public void RunActivity()
+    public override void RunActivity()
     {
-        DisplayStartMessage();
-        ExecuteActivity();
-        DisplayEndMessage();
-    }
+        DisplayStartMessage("Breathing Activity", "This activity will help you relax by walking you through breathing in and out slowly. Clear your mind and focus on your breathing.");
 
-    private void DisplayStartMessage()
-    {
-        Console.WriteLine("=== Breathing Activity ===");
-        Console.WriteLine("This activity will help you relax by walking you through breathing in and out slowly. Clear your mind and focus on your breathing.");
-        Console.Write("How long, in seconds, would you like your session? ");
-        DurationInSeconds = int.Parse(Console.ReadLine());
-        Console.WriteLine("Get ready...");
-
-        Thread spinnerThread = new Thread(Spin);
-        spinnerThread.Start();
-
-        Thread.Sleep(5000); // Adjust spinner timer
-
-        isSpinnerActive = false;
-    }
-
-    private void ExecuteActivity()
-    {
         int totalSecondsElapsed = 0;
         while (totalSecondsElapsed < DurationInSeconds)
         {
-            
             Console.WriteLine();
             Console.Write($"Breathe in... ");
             Timer.Countdown(4); // Adjust speed of breathe in
@@ -44,37 +19,14 @@ class BreathingActivity
             if (totalSecondsElapsed >= DurationInSeconds)
                 break;
 
-            
             Console.Write($"Breathe out... ");
             Timer.Countdown(6); // Adjust speed of breathe out
             Console.WriteLine();
             totalSecondsElapsed += 6;
         }
+
+        DisplayEndMessage("Breathing Activity");
     }
-
-    private void DisplayEndMessage()
-    {
-        Console.WriteLine();
-        Console.WriteLine($"Well done!!");
-        Console.WriteLine();
-        Console.WriteLine($"You have completed another {DurationInSeconds} seconds of the Breathing Activity.");
-        Thread.Sleep(5000);
-    }
-
-
-    private void Spin()
-    {
-        char[] spinner = { '|', '/', '-', '\\' };
-        int index = 0;
-        while (isSpinnerActive)
-        {
-            Console.Write(spinner[index]);
-            Thread.Sleep(200); // Adjust speed of spinner
-            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-            index = (index + 1) % spinner.Length;
-        }
-    }
-
 
     private static class Timer
     {

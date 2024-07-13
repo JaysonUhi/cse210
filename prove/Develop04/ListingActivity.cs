@@ -1,10 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
-class ListingActivity
+public class ListingActivity : Activity
 {
-    private int DurationInSeconds { get; set; }
-    private bool isSpinnerActive = true;
     private List<string> listingPrompts = new List<string>
     {
         "Who are people that you appreciate?",
@@ -14,31 +13,10 @@ class ListingActivity
         "Who are some of your personal heroes?"
     };
 
-    public void RunActivity()
+    public override void RunActivity()
     {
-        DisplayStartMessage();
-        ExecuteActivity();
-        DisplayEndMessage();
-    }
+        DisplayStartMessage("Listing Activity", "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.");
 
-    private void DisplayStartMessage()
-    {
-        Console.WriteLine("=== Listing Activity ===");
-        Console.WriteLine("This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.");
-        Console.Write("How long, in seconds, would you like your session? ");
-        DurationInSeconds = int.Parse(Console.ReadLine());
-        Console.WriteLine("Get ready...");
-
-        Thread spinnerThread = new Thread(Spin);
-        spinnerThread.Start();
-
-        Thread.Sleep(5000); // Adjust spinner timer
-
-        isSpinnerActive = false;
-    }
-
-    private void ExecuteActivity()
-    {
         Random random = new Random();
         string prompt = listingPrompts[random.Next(listingPrompts.Count)];
         Console.WriteLine();
@@ -57,38 +35,7 @@ class ListingActivity
         } while (!string.IsNullOrWhiteSpace(input));
 
         Console.WriteLine($"Number of items listed: {count}");
-    }
 
-    private void Spin()
-    {
-        char[] spinner = { '|', '/', '-', '\\' };
-        int index = 0;
-        while (isSpinnerActive)
-        {
-            Console.Write(spinner[index]);
-            Thread.Sleep(200); // Adjust speed of spinner
-
-            if (Console.CursorLeft > 0)
-            {
-                Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-            }
-            else
-            {
-                Console.SetCursorPosition(Console.WindowWidth - 1, Console.CursorTop);
-            }
-
-            index = (index + 1) % spinner.Length;
-        }
-    }
-
-
-
-    private void DisplayEndMessage()
-    {
-        Console.WriteLine();
-        Console.WriteLine($"Well done!!");
-        Console.WriteLine();
-        Console.WriteLine($"You have completed {DurationInSeconds} seconds of the Listing Activity.");
-        Thread.Sleep(5000);
+        DisplayEndMessage("Listing Activity");
     }
 }

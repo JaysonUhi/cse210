@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Diagnostics;
 
-class ReflectionActivity
+public class ReflectionActivity : Activity
 {
-    private int DurationInSeconds { get; set; }
-    private bool isSpinnerActive = true;
     private bool isActivityRunning = true;
+    private Stopwatch stopwatch = new Stopwatch();
 
     private List<string> reflectionPrompts = new List<string>
     {
@@ -30,62 +29,24 @@ class ReflectionActivity
         "How can you keep this experience in mind in the future?"
     };
 
-    public void RunActivity()
+    public override void RunActivity()
     {
-        DisplayStartMessage();
-        ExecuteActivity();
-        DisplayEndMessage();
-    }
+        DisplayStartMessage("Reflection Activity", "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.");
 
-    private void DisplayStartMessage()
-    {
-        Console.WriteLine("=== Reflection Activity ===");
-        Console.WriteLine("This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.");
-
-        bool validInput = false;
-        while (!validInput)
-        {
-            Console.Write("How long, in seconds, would you like your session? ");
-            string input = Console.ReadLine();
-            if (int.TryParse(input, out int duration) && duration > 0)
-            {
-                DurationInSeconds = duration;
-                validInput = true;
-            }
-            else
-            {
-                Console.WriteLine("Invalid input. Please enter a valid positive integer.");
-            }
-        }
-
-        Console.WriteLine("Get ready...");
-        Thread.Sleep(5000);
-        Console.WriteLine();
-    }
-
-    private void ExecuteActivity()
-    {
-        Random random = new Random();
-        Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
 
-        foreach (var prompt in reflectionPrompts)
+        while (isActivityRunning && stopwatch.Elapsed < TimeSpan.FromSeconds(DurationInSeconds))
         {
-            if (!isActivityRunning)
-            {
-                break;
-            }
-
+            string prompt = reflectionPrompts[new Random().Next(reflectionPrompts.Count)];
+            Console.WriteLine();
             Console.WriteLine(prompt);
             Console.WriteLine();
-            Thread.Sleep(5000);
+            Thread.Sleep(5000); // Pause between prompts
 
             foreach (var question in reflectionQuestions)
             {
                 if (!isActivityRunning)
-                {
                     break;
-                }
 
                 if (stopwatch.Elapsed >= TimeSpan.FromSeconds(DurationInSeconds))
                 {
@@ -99,6 +60,7 @@ class ReflectionActivity
         }
 
         stopwatch.Stop();
+        DisplayEndMessage("Reflection Activity");
     }
 
     private void PauseWithSpinner(int seconds)
@@ -106,39 +68,10 @@ class ReflectionActivity
         Thread spinnerThread = new Thread(Spin);
         spinnerThread.Start();
 
-        Thread.Sleep(seconds * 5000);
+        Thread.Sleep(seconds * 5000); // Adjust pause duration
 
         isSpinnerActive = false;
         spinnerThread.Join();
         isSpinnerActive = true;
-    }
-
-    private void Spin()
-    {
-        char[] spinner = { '|', '/', '-', '\\' };
-        int index = 0;
-        try
-        {
-            while (isSpinnerActive)
-            {
-                Console.Write(spinner[index]);
-                Thread.Sleep(200); // Adjust speed of spinner
-                Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
-                index = (index + 1) % spinner.Length;
-            }
-        }
-        catch (ArgumentOutOfRangeException ex)
-        {
-            Console.WriteLine($"Error: {ex.Message}");
-        }
-    }
-
-    private void DisplayEndMessage()
-    {
-        Console.WriteLine();
-        Console.WriteLine($"Well done!!");
-        Console.WriteLine();
-        Console.WriteLine($"You have completed {DurationInSeconds} seconds of the Reflection Activity.");
-        Thread.Sleep(5000);
     }
 }
