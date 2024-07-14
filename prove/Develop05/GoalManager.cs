@@ -153,10 +153,13 @@ public class GoalManager
             _score += goal.Points;
             Console.WriteLine($"Event recorded for {goalName}. You earned {goal.Points} points.");
 
-            if (goal is ChecklistGoal checklistGoal && checklistGoal.IsCompleted)
+            if (goal is ChecklistGoal checklistGoal)
             {
-                _score += checklistGoal.BonusPoints;
-                Console.WriteLine($"Bonus points earned: {checklistGoal.BonusPoints}");
+                if (checklistGoal.IsCompleted)
+                {
+                    _score += checklistGoal.BonusPoints;
+                    Console.WriteLine($"Bonus points earned: {checklistGoal.BonusPoints}");
+                }
             }
         }
         else
@@ -166,6 +169,7 @@ public class GoalManager
 
         DisplayScore();
     }
+
 
     private void SaveGoals()
     {

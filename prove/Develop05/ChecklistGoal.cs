@@ -11,16 +11,26 @@ public class ChecklistGoal : Goal
         BonusPoints = bonusPoints; // Initialize the bonus points
     }
 
-    public override void RecordEvent()
-    {
-        base.RecordEvent();
-        _completedTimes++;
-    }
-
     public override string GetDetailsString()
     {
-        return $"Checklist Goal: {Name} - Completed {_completedTimes}/{_targetTimes} times - {GetCompletionStatus()}";
+        string completionStatus = IsCompleted ? "[X] Completed" : "[ ] Not Completed";
+        return $"Checklist Goal: {Name} - Completed {_completedTimes}/{_targetTimes} times - {completionStatus}";
     }
+
+    public override void RecordEvent()
+    {
+        if (!IsCompleted)
+        {
+            _completedTimes++;
+            if (_completedTimes >= _targetTimes)
+            {
+                IsCompleted = true;
+            }
+        }
+    }
+
+
+
 
     public override string GetCompletionStatus()
     {
@@ -33,4 +43,5 @@ public class ChecklistGoal : Goal
             return $"Completed {_completedTimes}/{_targetTimes} times - [ ] Not Completed";
         }
     }
+
 }
