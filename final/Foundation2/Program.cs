@@ -5,10 +5,10 @@ public class Program
     public static void Main(string[] args)
     {
         
-        Address address1 = new Address("333 Goat Ave", "Chicago", "IL", "USA");
-        Address address2 = new Address("456 Burger Blvd", "Ljubljana", "Slovenia", "Slovenia");
-        Address address3 = new Address("5656 Mamba Lane", "Los Angeles", "CA", "USA");
-        Address address4 = new Address("222 Raptor Road", "Toronto", "ON", "Canada");
+        Address address1 = new Address("2323 Goat Ave", "Chicago", "IL", "USA");
+        Address address2 = new Address("77 Burger Blvd", "Ljubljana", "Slovenia", "Slovenia");
+        Address address3 = new Address("824 Mamba Lane", "Los Angeles", "CA", "USA");
+        Address address4 = new Address("1515 Raptor Road", "Toronto", "ON", "Canada");
 
         
         Customer customer1 = new Customer("Michael Jordan", address1);
