@@ -33,9 +33,9 @@ public class Program
         order2.AddProduct(product4);
 
         Order order3 = new Order(customer3);
-        order1.AddProduct(product2);
-        order1.AddProduct(product3);
-        order1.AddProduct(product4);
+        order3.AddProduct(product2);
+        order3.AddProduct(product3);
+        order3.AddProduct(product4);
 
         Order order4 = new Order(customer4);
         order4.AddProduct(product1);
